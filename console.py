@@ -3,7 +3,8 @@ from models.artist import Artist
 
 import repositories.artist_repos as artist_repos
 import repositories.album_repos as album_repos
-
+album_repos.delete_all()
+artist_repos.delete_all()
 artist1 = Artist("Beatles, The")
 artist2 = Artist("Doors, The")
 artist3 = Artist("Led Zeppelin")
@@ -55,3 +56,19 @@ album_repos.save(album16)
 album_repos.save(album17)
 album_repos.save(album18)
 
+# album_repos.delete_all()
+# artist_repos.delete_all()
+
+artist1 = Artist("Beatles, The")
+artist_repos.save(artist1)
+
+album1 = Album("Help!", artist1, "Rock")
+album_repos.save(album1)
+album2 = Album("Rubber Soul", artist1, "Rock")
+album_repos.save(album2)
+
+album1.genre = "Pop"
+album_repos.update(album1)
+
+for album in album_repos.select_all():
+    print(album.__dict__)

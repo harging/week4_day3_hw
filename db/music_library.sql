@@ -8,7 +8,7 @@ artist_name VARCHAR(255) NOT NULL
 
 CREATE TABLE albums (
 id SERIAL PRIMARY KEY,
-artist_name INT REFERENCES artists(id),
 album_name VARCHAR(255) NOT NULL,
+artist_id INT REFERENCES artists(id),
 genre VARCHAR(255)
 );

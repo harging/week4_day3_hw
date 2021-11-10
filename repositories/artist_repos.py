@@ -33,7 +33,7 @@ def select(id):
     result = run_sql(sql, values)[0]
     # Create a new task object
     if result is not None:
-        artist = Artist(result['artist_name'], result['id'])
+        artist = Artist(result['id'], result['artist_name'])
     # Return the task object
     return artist
 
@@ -48,7 +48,7 @@ def delete(id):
 
 def update(artist):
     sql = "UPDATE artists SET (artist_name) = (%s) WHERE id = %s"
-    values = [artist.artist_name, artist.id]
+    values = [artist.id, artist.artist_name]
     run_sql(sql, values)
 
 def albums(artist):
@@ -58,6 +58,6 @@ def albums(artist):
     results = run_sql(sql, values)
 
     for row in results:
-        album = Album(row['album_name'], artist, row['id'])
+        album = Album(row['id'], row['album_name'], artist)
         albums.append(album)
     return albums

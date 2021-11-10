@@ -10,14 +10,14 @@ def select_all():
     results = run_sql(sql)
 
     for row in results:
-        artist = artist_repos.select(row['artist_name'])
-        album = Album(row['id'], row['artist_name'], row['album_name'], row['genre'])
+        artist = artist_repos.select(row['artist_id'])
+        album = Album(row['album_name'], artist, row['genre'], row['id'])
         albums.append(album)
     return albums
 
 def save(album):
-    sql = "INSERT INTO albums (album_name, artist_name, genre) VALUES (%s, %s, %s) RETURNING *"
-    values = [album.album_name, album.artist_name.id, album.genre]
+    sql = "INSERT INTO albums (album_name, artist_id, genre) VALUES (%s, %s, %s) RETURNING *"
+    values = [album.album_name, album.artist.id, album.genre]
     results = run_sql(sql, values)
     id = results[0]['id']
     album.id = id
@@ -49,6 +49,6 @@ def delete(id):
     run_sql(sql, values)
 
 def update(album):
-    sql = "UPDATE albums SET (id, album_name, artist_name) = (%s, %s, %s) WHERE id = %s"
-    values = [album.id, album.album_name, album.artist_name.id, album.genre]
+    sql = "UPDATE albums SET (album_name, artist_id, genre) = (%s, %s, %s) WHERE id = %s"
+    values = [album.album_name, album.artist.id, album.genre]
     run_sql(sql, values)
